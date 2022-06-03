@@ -1,14 +1,62 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+\documentclass[10pt,conference]{ieeeconf}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{mathnotation}
+\usepackage{oubraces}
 
-\title{ROB545: Project Paper}
-\author{Capprin Bass}
-\date{June 2022}
+\makeatletter
+\def\endthebibliography{%
+  \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
+  \endlist
+}
+\makeatother
+
+\DeclareRobustCommand{\groupderiv}[1]{\accentset{\scriptstyle\circ}{#1}}
+\renewcommand{\localconn}{\mixedconn}
+% taken from IEEEtran
+\DeclareRobustCommand*{\IEEEauthorrefmark}[1]{\raisebox{0pt}[0pt][0pt]{\textsuperscript{\footnotesize\ensuremath{\ifcase#1\or *\or \dagger\or \ddagger\or%
+    \mathsection\or \mathparagraph\or \|\or **\or \dagger\dagger%
+    \or \ddagger\ddagger \else\textsuperscript{\expandafter\romannumeral#1}\fi}}}}
+
+\title{Kinematic Path Planning Under Uncertainty}
+% Optimal Choice of Robot Intrinsic Dimension
+\author{
+    \authorblockN{
+        Capprin Bass\IEEEauthorrefmark{1},
+        Neha Pusalkar\IEEEauthorrefmark{2}, and
+        Brett Stoddard\IEEEauthorrefmark{3}
+    }
+    \authorblockA{  
+        Collaborative Institute for Robotics and Intelligent Systems (CoRIS),
+        Oregon State University\\Corvallis, Oregon \\
+        Email: \{\IEEEauthorrefmark{1}basscap,
+        \IEEEauthorrefmark{2}pusalkan,
+        \IEEEauthorrefmark{3}stoddabr\}@oregonstate.edu
+    }
+}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduction}
+\begin{abstract}
+    foo
+\end{abstract}
+
+\section{Introduction}\label{sec:introduction}
+
+\section{Background}\label{sec:background}
+
+\section{Covariant Metric}\label{sec:methods}
+
+
+\section{Results and Analysis}\label{sec:analysis}
+
+\section{Conclusion}\label{sec:conclusion}
+
+\bibliographystyle{./IEEEtran}
+\bibliography{./IEEEabrv,./gm-references/gm.bib}
 
 \end{document}
