@@ -1,0 +1,942 @@
+% %% Make some symbols prettier
+%\usepackage{mathabx}
+%
+
+
+\usepackage{amsmath,amssymb,bm,xparse}%,amsthm}
+\usepackage[single]{accents}
+\usepackage{xstring}
+\usepackage{mathtools}
+\usepackage{graphbox}
+  \usepackage{stackengine}
+
+\DeclarePairedDelimiter\parentheses{\lparen}{\rparen}
+
+%matrix environment redef
+\makeatletter
+\RenewDocumentCommand\env@matrix{O{*\c@MaxMatrixCols c}}{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+
+%
+
+% Properly handle accents over parentheses
+%\makeatletter
+%\protected\def\mathaccentV#1#2#3#4#5%
+%  {%
+%    \ifmmode
+%      \mathaccentV@do{#2}{#3}{#4}{#5}%
+%    \else
+%      \@xp\nonmatherr@\csname #1\endcsname
+%    \fi
+%  }
+%\def\mathaccentV@do#1#2#3#4%
+%  {%
+%    \global\let\macc@nucleus\@empty
+%    \mathaccent"\accentclass@#1#2#3{#4}\macc@nucleus
+%  }
+%\makeatother
+
+
+%
+
+\makeatletter
+\newsavebox{\dblacc@boxa}
+\newsavebox{\dblacc@boxb}
+\DeclareRobustCommand{\dblacc}[2]{\mathpalette\dblacc@{{#1}{#2}}}
+\newcommand{\dblacc@}[2]{\dblacc@@#1#2}
+\newcommand{\dblacc@@}[3]{%
+  \begingroup
+  \sbox\dblacc@boxa{$\m@th#1#3$}%
+  \sbox\dblacc@boxb{$\m@th#1#2{\copy\dblacc@boxa}$}%
+  \box\dblacc@boxb
+  \endgroup
+}
+\makeatother
+ 
+ 
+%
+ 
+ %get nested overunderbraces
+ \usepackage{oubraces}
+ 
+ % Get nice fractions
+ \usepackage{xfrac}
+
+% get access to the product integral symbol
+\usepackage{prodint}
+
+% Declare extra color options
+  \usepackage{xcolor}
+  \definecolor{crimson}{RGB}{234,14,30}
+  \definecolor{grey}{RGB}{110,110,115}
+
+
+%
+
+\usepackage{booktabs}
+
+\usepackage{mathtools}
+
+\DeclareMathAlphabet\EuRoman{U}{eur}{m}{n}
+\SetMathAlphabet\EuRoman{bold}{U}{eur}{b}{n}
+\newcommand{\eurom}{\EuRoman}
+
+\usepackage{esint}
+
+\usepackage{xspace}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\usepackage{enumitem}
+
+
+%
+
+% Allow centering of matrix equations
+\newcommand*\centermathcell[1]{\omit\hfil$\displaystyle#1$\hfil\ignorespaces}
+
+
+\renewcommand\useanchorwidth{T}
+\stackMath
+
+
+\newenvironment{packed_item}{
+  \setlength{\partopsep}{-8pt}
+  \begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+
+}{\end{itemize}}
+
+\newenvironment{packed_enum}{
+  \setlength{\partopsep}{-8pt}
+  \begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+
+}{\end{enumerate}}
+
+
+
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bi}{\begin{packed_item}}
+\newcommand{\ei}{\end{packed_item}}
+\newcommand{\ie}{\item}
+
+\makeatletter
+\newcommand{\vast}{\bBigg@{3}}
+\newcommand{\Vast}{\bBigg@{4}}
+\makeatother
+
+\newcommand{\dsf}{\delimitershortfall=-1pt }
+
+%Inverse symbol
+%\newcommand{\inv}[1]{%
+%	\def\inverseelement@arg{#1}%
+%	\@ifnextchar_{\inverseelement@fexp}{%
+%		\mathchoice{%
+%			#1^{\scriptstyle \hspace{.1ex}\text{-}\hspace{-.2ex}1}}%
+%			{#1^{\scriptstyle \hspace{.1ex}\text{-}\hspace{-.2ex}1}}%
+%			{#1^{\scriptscriptstyle \hspace{.1ex}\text{-}\hspace{-.2ex}1}}%
+%			{#1^{\scriptscriptstyle \hspace{.1ex}\text{-}\hspace{-.2ex}1}}%
+%			}
+%	\def\inverseelement@exp{%
+%	
+%		}
+%	}
+
+
+\newcommand{\lowpunct}[1]{_{\textstyle{#1}}}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\nullspace}{null}
+
+\newcommand{\binorm}{\independent}
+\newcommand{\inv}[1]{#1^{\hspace{.1ex}\text{-}\hspace{-.2ex}1}}
+\newcommand{\invtranspose}[1]{#1^{-T}}%{\hspace{.1ex}\text{-}\hspace{-.2ex}T}}
+\newcommand{\invprime}[1]{#1^{\prime\hspace{.1ex}\text{-}\hspace{-.2ex}1}}
+\newcommand{\invpprime}[1]{#1^{\prime\prime\hspace{.1ex}\text{-}\hspace{-.2ex}1}}
+\newcommand{\evalat}[1]{\left. #1 \right \rvert}
+\newcommand{\pmi}{\phantom{-}}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\vectorize}{vec}
+\DeclareMathOperator{\svd}{svd}
+
+\newcommand{\pinv}[1]{#1^{+}} % Pseudo-inverse
+\newcommand{\pinvtranspose}[1]{#1^{+T}} % Pseudo-inverse
+\newcommand{\dpinv}[1]{#1^{+*}} % Pseudo-inverse
+
+%Robot representation
+\newcommand{\numlinks}{n}				%number of links
+\newcommand{\numjoints}{m}			%number of joints
+\newcommand{\jointangle}{\alpha}		%joint angle variable
+
+%Fundamental spaces 
+\newcommand{\euclid}{\mathbb{R}}			%Euclidean space
+\newcommand{\sphere}{\mathbb{S}}			%Spherical space
+\newcommand{\torus}{\mathbb{T}}			%Toroidal space
+\newcommand{\integers}{\mathbb{Z}}          % Set of integers
+\newcommand{\rtm}{\euclid^{m}_{\torus}}	%Euclidean cover of m-dim torus
+\newcommand{\tj}{\torus^{\numjoints}}				%m-dim torus
+\newcommand{\delift}{\mathcal{C}}			%map from E. cover to torus
+\newcommand{\al}{\boldsymbol{\alpha}}		%point on E. cover
+\newcommand{\alb}{\bar{\al}}				%point on torus
+\newcommand{\gsA}{A}				% generic space A
+\newcommand{\gsB}{B}				% generic space B
+\newcommand{\gpA}{a}				% point in generic space A
+\newcommand{\gpB}{b}				% point in generic space B
+
+% Lie groups
+\newcommand{\posreals}{\euclid_{>0}}
+\newcommand{\multgroup}{(\posreals,\times)} % multiplicative group of positive reals
+\newcommand{\addgroup}{(\euclid,+)}
+\newcommand{\circlegroup}{(\sphere^{1},+)} 
+\newcommand{\scaleshiftgroup}{\multgroup \semidprod \addgroup}
+
+\newcommand{\liebracket}[2]{[#1,#2]}
+
+%body and global x
+%\newcommand{\xglobal}{x^{g}}					%global x
+%\newcommand{\yglobal}{y^{g}}					%global y
+%\newcommand{\thetaglobal}{\theta^{g}}				%global theta
+\newcommand{\xgen}{x}					%global x
+\newcommand{\ygen}{y}					%global y
+\newcommand{\tgen}{\theta}				%global theta
+\newcommand{\xb}{x^{b}}				%body x
+\newcommand{\yb}{y^{b}}				%body y
+\newcommand{\tb}{\theta^{b}}				%body theta
+\newcommand{\xbz}{x^{b_{0}}}				%body x
+\newcommand{\ybz}{y^{b_{0}}}				%body y
+\newcommand{\thetabz}{\theta^{b_{0}}}				%body theta
+\newcommand{\xgdot}{\dot{x}}					%global x dot
+\newcommand{\ygdot}{\dot{y}}					%global y dot
+\newcommand{\tgdot}{\dot{\theta}}				%global theta dot
+\newcommand{\xbdot}{\dot{x}^{b}}				%body x dot
+\newcommand{\ybdot}{\dot{y}^{b}}				%body y dot
+\newcommand{\tbdot}{\dot{\theta}^{b}}				%body theta dot
+\newcommand{\xbhat}{\hat{x}^{b}}				%body x dot
+\newcommand{\ybhat}{\hat{y}^{b}}				%body y dot
+\newcommand{\tbhat}{\hat{\theta}^{b}}				%body theta dot
+\newcommand{\xdot}{\dot{x}}					%global x dot
+\newcommand{\ydot}{\dot{y}}					%global y dot
+\newcommand{\tdot}{\dot{\theta}}				%global theta dot
+\newcommand{\thetadot}{\dot{\theta}}				%global theta dot
+
+\newcommand{\CoM}{\textsc{COM}}  % Center of mass
+
+
+
+\newcommand{\gop}{\circ}                                    % group operation
+\newcommand{\fcomp}{\circ}                                % function composition
+%\DeclareRobustCommand{\groupderiv}[1]{%
+%	\mathchoice{\vphantom{\dot{#1}}\smash{\accentset{\scriptstyle\circ}{#1}}}
+%	{\vphantom{\dot{#1}}\smash{\accentset{\scriptstyle\circ}{#1}}}
+%	{\vphantom{\dot{#1}}\smash{\accentset{\scriptscriptstyle\circ}{#1}}}
+%	{\vphantom{\dot{#1}}\smash{\accentset{\scriptscriptstyle\circ}{#1}}}
+%	}           % group derivative
+\DeclareRobustCommand{\groupderiv}[1]{%
+	\mathchoice{\accentset{\scriptstyle\circ}{#1}}
+	{\accentset{\scriptstyle\circ}{#1}}
+	{\accentset{\scriptscriptstyle\circ}{#1}}
+	{\accentset{\scriptscriptstyle\circ}{#1}}
+	}           % group derivative
+\DeclareSymbolFont{symbolsC}{U}{txsyc}{m}{n}
+\DeclareMathSymbol{\circleleft}{\mathrel}{symbolsC}{146}
+\DeclareMathSymbol{\circleright}{\mathrel}{symbolsC}{145}
+\DeclareRobustCommand{\leftgroupderiv}[1]{\accentset{\scriptscriptstyle{\circleleft}}{#1}}           % group derivative
+\DeclareRobustCommand{\rightgroupderiv}[1]{\accentset{\scriptscriptstyle{\circleright}}{#1}}           % group derivative
+%\newcommand{\leftgroupderiv}[2][]{\accentset{\scriptstyle\phantom{|}\gop|}{#2}}           % group derivative
+%\newcommand{\rightgroupderiv}[2][]{\accentset{\scriptstyle|\gop}{#2}}           % group derivative
+%\newcommand{\rightgroupderivhat}[2][]{\overset{{\scriptstyle|}{\textstyle\hat{\scriptstyle*}}}{#2}}           % group derivative
+
+\DeclareRobustCommand{\groupcov}[1]{\underaccent{\scriptstyle\circ}{#1}}           % group covecvtor
+\DeclareRobustCommand{\leftgroupcov}[1]{\underaccent{\scriptscriptstyle{\circleleft}}{#1}}           % group covector
+\DeclareRobustCommand{\rightgroupcov}[1]{\underaccent{\scriptscriptstyle{\circleright}}{#1}}           % group covector
+
+
+%% Make nice parentheses for simple fractions in both text and display mode (specifically creating this for parentheses around directional derivative bases)
+%\newcommand{\fracparentheses}[1]{%
+%	\mathchoice{\parentheses*{#1}}
+%			{\parentheses[\big]{#1}}
+%			{\parentheses*{#1}}
+%			{\parentheses*{#1}}
+%			}
+
+
+
+\newcommand{\diffmap}[1]{#1'}
+\newcommand{\fiberdelt}[1][]{\fiber_{\delta#1}}
+\newcommand{\repname}{\rho}
+\newcommand{\rep}[1]{\repname\parentheses*{#1}}                      % group representation
+%\newcommand{\repb}{\rho_{\gop}}                      % group representation
+\newcommand{\repv}[1]{\rep{#1}}       % representation of velocity
+\newcommand{\repc}[1]{\rep{#1}}       % representation of covector
+\newcommand{\repvb}[1]{\parentheses[\big]{\dirdiv{#1}}_{\repname}} % representation of basis vector
+\newcommand{\disprepvb}[1]{\parentheses*{\dirdiv{#1}}_{\repname}} % representation of basis vector
+\newcommand{\osetrepvb}[1]{\parentheses*{\dirdiv{#1}}_{\repname}} % representation of basis vector
+\newcommand{\repvbvec}[1]{\parentheses[\big]{\dirdiv{#1}}_{\substack{\repname \\ \text{vec}}}} % representation of basis vector
+\newcommand{\disprepvbvec}[1]{\parentheses*{\dirdiv{#1}}_{\substack{\repname \\ \text{vec}}}} % representation of basis vector
+\newcommand{\osetrepvbvec}[1]{\parentheses*{\dirdiv{#1}}_{\substack{\repname \\ \text{vec}}}} % representation of basis vector
+\newcommand{\repcb}[1]{\parentheses{\dualdiv{#1}}_{\repname}} % representation of basis covector
+\newcommand{\repcbvec}[1]{\parentheses{\dualdiv{#1}}_{\substack{\repname \\ \text{vec}}}}
+\newcommand{\disprepcbvec}[1]{\parentheses*{\dualdiv{#1}}_{\substack{\repname \\ \text{vec}}}}
+\newcommand{\trans}{\tau}                   % transition map
+\newcommand{\param}{\phi}                 % parameterization map
+\newcommand{\embed}{E}				% Embedding map
+\newcommand{\drep}[1]{\repname^{*}\hspace{-.1em}\left(#1\right)}      % group dual representation
+\newcommand{\drepinv}[1]{\repname^{\solneg*}\hspace{-.1em}(#1)}      % group dual representation
+\newcommand{\drepv}[1]{\drep{#1}}      % group dual representation
+\newcommand{\drepc}[1]{\drep{#1}}      % group dual representation
+\newcommand{\fiberstar}{\fiber^{*}}  % dual group action
+\newcommand{\altfiberstar}{\altfiber^{*}} 
+\newcommand{\fiberstarinv}{\fiber^{\solneg*}}  % dual group action
+\newcommand{\altfiberstarinv}{\altfiber^{\solneg*}} 
+
+
+\newcommand{\repinv}[1]{\inv{\repname}\hspace{-.1em}(#1)}      % inverse group dual representation
+\newcommand{\reptranspose}[1]{\transpose{\repname}\hspace{-.1em}(#1)}      % transpose group dual representation
+\newcommand{\repinvtranspose}[1]{\invtranspose{\repname}\hspace{-.1em}(#1)}      % transpose group dual representation
+
+\newcommand{\repvtranspose}[1]{\reptranspose{#1}} %transpose of velocity representation
+
+\newcommand{\solneg}{\text{-}}            %Solitary negative
+
+%Fiber bundle spaces
+\newcommand{\bundlespace}{Q}					%Fiber bundle
+\newcommand{\configspace}{\bundlespace}		%configuration space
+\newcommand{\altconfigspace}{P}
+\newcommand{\fiberspace}{G}					%Fiber space
+\newcommand{\varfiberspace}{\mathpzc{G}}          %Variant fiber space
+\newcommand{\basespace}{B}					%Base space
+\newcommand{\bundle}{{q}}		%point in bundle
+\newcommand{\config}{\bundle}			%point in configuration space
+\newcommand{\altconfig}{p}
+\newcommand{\fiber}{g}			%point on fiber space
+\newcommand{\groupel}{g}                %generic group element
+\newcommand{\fiberinv}{\inv{\fiber}} % inverse of point on fiber space
+\newcommand{\varfiber}{\mathpzc{g}}  %point on variant fiber space
+\newcommand{\altfiber}{h}           %alternate point on fiber space
+\newcommand{\altfiberinv}{\inv{\altfiber}} %inverse of alternate point on fiber space
+\newcommand{\varaltfiber}{\mathpzc{h}}           %alternate point on variant fiber space
+\newcommand{\fiberexp}{z}	%exponential coordinate representation of point on fiber space
+\newcommand{\varfiberexp}{\mathpzc{z}} %exponential coordinate representation of point on variant fiber space
+\newcommand{\base}{\alpha}%{b}			%point on base space
+\newcommand{\bundledot}{\dot{\bundle}}		%point in bundle
+\newcommand{\configdot}{\bundledot}			%point in configuration space
+\newcommand{\altconfigdot}{\dot{\altconfig}}
+\newcommand{\fiberdot}{\dot{\fiber}}			%velocity on fiber space
+\newcommand{\varfiberdot}{\dot{\mathpzc{\fiber}}}	 %velocity on variant fiber space
+\newcommand{\altfiberdot}{\dot{\altfiber}}         % velocity of alternate point on fiber space
+\newcommand{\basedot}{\dot{\base}}            %velocity in the base space
+\newcommand{\alphadot}{\dot{\alpha}}
+\newcommand{\projmap}{\pi}			%general projection map
+\newcommand{\fiberdotb}{\fiberdot^{b}}  %body representation of fiber velocity
+\newcommand{\fiberdotm}{[\fiberdot]}			%velocity on fiber space
+\newcommand{\fibercount}{n}
+\newcommand{\basecount}{m}
+\newcommand{\constraintcount}{k}
+\newcommand{\fiberlie}{\mathfrak{\fiber}}
+\newcommand{\fiberdlie}{\mathfrak{\fiber}^{*}}
+\newcommand{\fibercirc}{\groupderiv{\fiber}}
+\newcommand{\fibercircl}{\leftgroupderiv{\fiber}}
+\newcommand{\fibercircr}{\rightgroupderiv{\fiber}}
+\newcommand{\altfibercirc}{\groupderiv{\altfiber}}
+\newcommand{\altfibercircl}{\leftgroupderiv{\altfiber}}
+\newcommand{\altfibercircr}{\rightgroupderiv{\altfiber}}
+\newcommand{\funfield}{\fibercirc_{\fiberspace}}
+\newcommand{\funfieldl}{\fibercircl_{\fiberspace}}
+\newcommand{\funfieldr}{\fibercircr_{\fiberspace}}
+\newcommand{\basisv}{u}             % basis vector
+\newcommand{\vecbasis}{U} % basis for a vector space
+\newcommand{\vecspace}{V} % vector space
+\newcommand{\smallcomp}{\vcenter{\hbox{$\scriptstyle\gop$}}}
+\newcommand{\jac}{J}			% Jacobian
+\newcommand{\jacstar}{J^{*}}         % Dual Jacobian
+\newcommand{\jacstari}{J^{\solneg*}}         % Dual Jacobian
+\newcommand{\bodyjacobian}{\jac^{b}}
+\newcommand{\spatialjacobian}{\jac^{s}}
+\newcommand{\worldjacobian}{\jac}
+\newcommand{\ADj}{AD}               %Adjoint notation
+\newcommand{\ADji}{\inv{AD}}
+\newcommand{\Adj}{Ad}
+\newcommand{\Adji}{\inv{Ad}}
+\newcommand{\coAdj}{coAd}
+\newcommand{\coAdji}{\inv{coAd}}
+\newcommand{\dAdj}{Ad^{*}}
+\newcommand{\dAdji}{Ad^{\,\solneg *}}
+%\newcommand{\adj}{ad}
+%\newcommand{\adji}{\inv{ad}}
+\newcommand{\feqa}{f}	% Functions for equivalent action
+\newcommand{\feqadot}{\dot{\delta}}	% Function velocity for equivalent action
+\newcommand{\feqb}{F}	% Functions for invariance
+\newcommand{\dirdiv}[1]{\frac{\partial}{\partial #1}} % directional derivative
+\newcommand{\dualdiv}[1]{\mathrm{d}#1} %dual directional derivative
+\newcommand{\parderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\dispparderiv}[2]{\dfrac{\partial #1}{\partial #2}}
+
+\newcommand{\lDelta}{\underset{\leftarrow}{\Delta}}   % Left Delta
+\newcommand{\rDelta}{\underset{\rightarrow}{\Delta}} % Right Delta
+
+\newcommand{\feqc}{\phi} % function for equivalent force
+\newcommand{\feqd}{\varphi}
+
+\newcommand{\onefquant}{c}
+\newcommand{\onefquantcirc}{\groupcov{\onefquant}}
+\newcommand{\onefquantcircl}{\leftgroupcov{\onefquant}}
+\newcommand{\onefquantcircr}{\rightgroupcov{\onefquant}}
+\newcommand{\onefcoeff}[1]{\onef_{#1}}%{\partial_{#1}\onefquant}
+\newcommand{\oneffull}[1]{\onefcoeff{#1}}
+
+\newcommand{\onefcoeffC}[1]{\onefcoeff{#1}}
+\newcommand{\onefcoeffG}[1]{\onefcoeff{\Gact_{#1}}}
+\newcommand{\onefcoeffL}[1]{\onefcoeff{\Lact_{#1}}}
+\newcommand{\onefcoeffR}[1]{\onefcoeff{\Ract_{#1}}}
+
+
+\newcommand{\oneffullC}[1]{\oneffull{#1}}
+\newcommand{\oneffullG}[1]{\oneffull{\Gact_{#1}}}
+\newcommand{\oneffullL}[1]{\oneffull{\Lact_{#1}}}
+\newcommand{\oneffullR}[1]{\oneffull{\Ract_{#1}}}
+
+\newcommand{\worldforce}{F}
+\newcommand{\bodyforce}{\rightgroupcov{\worldforce}} %Body force
+\newcommand{\spatialforce}{\leftgroupcov{\worldforce}} %Spatial force
+
+%Shape and position/orientation spaces
+\newcommand{\porspace}{\mathcal{P}}	%pose space
+\newcommand{\shapespace}{\mathcal{S}}	%shape space
+%\newcommand{\configspace}{\mathcal{C}}	%configuration space
+%\newcommand{\config}{\mathbf{c}}		%configuration
+%\newcommand{\configdot}{\mathbf{c}}		%config velocity
+\newcommand{\por}{\fiber}		%position and orientation
+\newcommand{\pordot}{\dot{\por}}		%position and orientation velocity
+\newcommand{\shape}{\mathbf{s}}				%shape of a rotary joint robot
+\newcommand{\shapedot}{\dot{\shape}}		%shape velocity of a rotary joint robot
+\newcommand{\pathlength}{\ell}				%pathlength
+\newcommand{\sweep}{s}					%total angular sweep
+\newcommand{\euclidd}{{D}}				%euclidean distance
+\newcommand{\offset}{\Delta \por^{b_{0}}}			%phase shift
+\newcommand{\groupid}{\mathbf{e}}				% group identity element
+\newcommand{\matrixid}{\mathrm{Id}}            %Identity matrix
+\newcommand{\linki}[1][]{\altfiber_{#1}}                         % intra-joint transformation
+\newcommand{\linkpm}[1][]{\altfiber_{#1\frac{m}{p}}}                         % medial intra-link transformation
+\newcommand{\linkmd}[1][]{\altfiber_{#1\frac{d}{m}}}                         % medial intra-link transformation
+\newcommand{\linkpd}[1][]{\altfiber_{#1\frac{d}{p}}}                         % medial intra-link transformation
+\newcommand{\linkp}[1][]{\fiber_{#1p}}                  %proximal link frame
+\newcommand{\linkd}[1][]{\fiber_{#1d}}                  %distal link frame
+\newcommand{\linka}[1][]{a_{#1}}                           %joint transformation
+\newcommand{\jointaxis}[1][]{\rightgroupderiv{a}_{#1}}         %\joint axis
+\newcommand{\jointaxisneutral}[1][]{\groupderiv{a}_{#1}}         %\joint axis
+\newcommand{\jointaxisspatial}[1][]{\leftgroupderiv{a}_{#1}}         %\joint axis
+\newcommand{\jointaxisspatialref}[1][]{\leftgroupderiv{a}_{#1}^{\text{ ref}}}         %\joint axis
+\newcommand{\jointaxisforce}[1][]{\rightgroupcov{a}_{#1}}
+\newcommand{\localdefaxis}{\jointaxis} % Local axis for continuum system
+\newcommand{\flowaxis}{\altfibercircr_{f}}
+\newcommand{\flowdefaxis}{\altfibercircr_{\alnth}}
+
+\newcommand{\alnth}{s} % arclength
+\newcommand{\altalnth}{\sigma}
+\newcommand{\curv}{\kappa} % curvature
+\newcommand{\curvs}{\curv_{s}} % curvature relative to backbone parameterization
+\newcommand{\curvsbar}{\curv_{\bar{s}}} %normalized curvature
+\newcommand{\bstretch}{\lambda} % backbone stretch
+\newcommand{\bstrain}{\epsilon}
+\newcommand{\shearrate}{\gamma}
+\newcommand{\shearrates}{\gamma_{s}}
+\newcommand{\shearratesbar}{\gamma_{\bar{s}}}
+\newcommand{\shearangle}{\psi}
+\newcommand{\aggregatestretch}{\Lambda}
+
+\newcommand{\linkindex}{i}
+\newcommand{\jointindex}{j}
+\newcommand{\countindex}{k}
+\newcommand{\altcountindex}{\gamma}
+\newcommand{\rebaseindex}{k}
+
+\newcommand{\linkpos}[1][]{\fiber_{#1}} % link position
+\newcommand{\jointpos}[1][]{\fiber_{#1}} % joint position
+
+%Example manifolds and one-forms
+\newcommand{\sM}{\mathcal{M}}			%Generic manifold
+\newcommand{\sMM}{\mathfrak{M}}			%Larger generic manifold
+\newcommand{\sm}{{m}}					%point on generic manifold
+\newcommand{\onef}{\omega}				%one-form
+\newcommand{\equivvec}{\Omega}				%covector representation of one-form
+\newcommand{\vecfield}{\mathbf{X}}				%generic vector field
+\newcommand{\covecfield}{\mathbf{\Omega}}    % generic covector field
+\newcommand{\vecflow}{\gamma}                   %flow on a vector field
+\newcommand{\freevec}{X}					%free vector
+\newcommand{\dotprodv}{\mathcal{P}}		%generic dot product
+\newcommand{\extd}{\textbf{d}}                 %exterior derivative
+\newcommand{\covextd}{\textbf{D}}          %covariant exterior derivative
+
+\newcommand{\covprod}[2]{\left\langle #1\, , \, #2 \right\rangle} %covector-vector product
+
+%Shape changes and gaits
+\newcommand{\allshchs}{\Psi}					%Set of all shape changes
+\newcommand{\allgaits}{\Phi}					%Set of all gaits
+\newcommand{\allcgaits}{\allgaits_{\cgait}}			%Set of all closed gaits
+\newcommand{\shch}{\psi}						%shape change
+%\newcommand{\shchw}{\bar{\shch}}				%wrapped shape change
+\newcommand{\shchv}{\dot{\shch}}	%shape change velocity field
+\newcommand{\shchvf}{\boldsymbol{\bar{\shch}}}	%shape change velocity field
+\newcommand{\gait}{\phi}						%gait
+%\newcommand{\gaitw}{\bar{\gait}}				%wrapped gait
+\newcommand{\gaitv}{\dot{\gait}}	%gait velocity field
+%\newcommand{\cgait}{\varphi}					%closed gait
+%\newcommand{\cgaitw}{\bar{\cgait}}				%wrapped closed gait
+%\newcommand{\cgaitv}{\boldsymbol{\dot{\cgait}}}	%closed gait velocity field
+\newcommand{\shchstart}{0}						%Start time on the shape change
+\newcommand{\shchend}{T}						%Final time on the shape change
+\newcommand{\charpath}[1]{\fiber^{#1}}                  %characteristic path
+\newcommand{\chardisp}[1]{\charpath{#1}}%(\shchend)}       %characteristic displacement
+\newcommand{\charv}[1]{\fiberdot_{#1}}  %characteristic velocity
+\newcommand{\charvf}[1]{\boldsymbol{\bar{\fiber}}_{#1}}  %characteristic velocity field
+\newcommand{\bvierror}{\varepsilon_{\bvi}}    %error between bvi and displacement
+\newcommand{\library}{\mathcal{L}} %library of maneuvers
+\newcommand{\maneuver}{m} %maneuver
+\newcommand{\maneuvershape}{\maneuver^{\alpha}} %shape change component of the maneuver
+\newcommand{\maneuverpos}{\maneuver^{\fiber}}% position change component of the maneuver
+\newcommand{\gaitimfam}{\bar{\gait}} %Image family of a gait
+
+%Contribution separation tagging text
+\newcommand{\GEO}{\text{GEO}}			%Geometric contribution
+\newcommand{\DYN}{\text{DYN}}			%Dynamic contribution
+\newcommand{\MAG}{\text{MAG}}			%Magnitude contribution
+\newcommand{\ANG}{\text{ANG}}			%Angular contribution
+
+%Connecction types
+\newcommand{\localconn}{A}				%Local form of the connection
+\newcommand{\mechconn}{A}				%Mechanical connection
+\newcommand{\kineconn}{\mathbb{A}}		%Kinematic connection
+\newcommand{\mixedconn}{\mathbf{A}}		%Mixed connection
+\newcommand{\vecconn}{\vec{\mathbf{A}}}		%Connection vector field
+\newcommand{\GamFun}{\boldsymbol{\Gamma}}   %Gamma function
+\newcommand{\connmod}{\mathbf{B}}               %Connection modifier
+\newcommand{\vecconnmod}{\vec{\mathbf{B}}}               %Connection modifier
+\newcommand{\hfun}{\mathbf{H}}				%Height function
+\newcommand{\genmommat}{\sigma}              %matrix in evolution of general momentum
+
+
+%Body velocity and bvi
+\newcommand{\bodyvel}{\fibercircr} %{{\xi}}				%body velocity
+\newcommand{\altbodyvel}{\altfibercircr} %{{\xi}}				%body velocity
+\newcommand{\fbodyvel}{\groupderiv{f}} %{{\xi}}				%body velocity
+\newcommand{\varpullbackvel}{{\gamma}}				%pullback velocity on variant space
+\newcommand{\bvel}{\bodyvel}            %body velocity
+\newcommand{\bvelx}{\bodyvel^{\, x}}      %body forward velocity
+\newcommand{\bvely}{\bodyvel^{\, y}}      %body lateral velocity
+\newcommand{\bvelt}{\bodyvel^{\, \theta}} %body rotational velocity
+\newcommand{\altbvel}{\altbodyvel}            %body velocity
+\newcommand{\altbvelx}{\altbodyvel^{x}}      %body forward velocity
+\newcommand{\altbvely}{\altbodyvel^{y}}      %body lateral velocity
+\newcommand{\altbvelt}{\altbodyvel^{\theta}} %body rotational velocity
+\newcommand{\bvi}{{\zeta}}			%body velocity integral
+\newcommand{\bvigroup}{\gamma}        %manifold body velocity integral
+\newcommand{\bvigeo}{\Delta\bvi_{\GEO}}	%geometric bvi
+\newcommand{\bvidyn}{\Delta\bvi_{\DYN}}	%dynamic bvi
+\newcommand{\genmom}{p}							%generalized momentum
+\newcommand{\genmomdot}{\dot{\genmom}}    %time rate of change of momentum
+\newcommand{\scaledmom}{\rho}          %scaled momentum
+\newcommand{\scaledmomdot}{\dot{\scaledmom}} %time rate of change of scaled momentum
+\newcommand{\spatialvel}{\fibercircl}     %spatial velocity
+\newcommand{\svelx}{\fibercircl^{\, x}}
+\newcommand{\svely}{\fibercircl^{\, y}}
+\newcommand{\svelt}{\fibercircl^{\,\theta}}
+\newcommand{\cbvi}{\bar{\zeta}} %corrected BVI
+
+% Inner product spaces
+\newcommand{\metric}{M}
+\newcommand{\dualmetric}{\metric^{*}}
+\newcommand{\innerprod}[2]{\left\langle #1,#2\right\rangle} %vector-vector inner product
+\newcommand{\innerprodangle}{\theta}
+\newcommand{\matrixId}{\mathrm{Id}}
+
+
+%pullback and push forward
+\newcommand{\Gact}{\Phi} %group action
+\newcommand{\Lact}{L} % left group action
+\newcommand{\Ract}{R} % right group action
+\newcommand{\liftedaction}[3]{T_{#1}{#2}_{#3}}  %Generic lifted action
+\newcommand{\lGact}[2]{\liftedaction{#1}{\Gact}{#2}}
+\newcommand{\lLact}[2]{\liftedaction{#1}{\Lact}{#2}}%Left lifted action
+\newcommand{\lRact}[2]{\liftedaction{#1}{\Ract}{#2}} %Right lifted action
+\newcommand{\leftliftedaction}[2]{\lLact{#1}{#2}}
+\newcommand{\rightliftedaction}[2]{\lRact{#1}{#2}}
+\newcommand{\leftinversepushforward}[1]{\leftliftedaction{#1}{\inv{#1}}} %Left inverse pushforward
+\newcommand{\leftpushforward}[1]{\leftliftedaction{e}{#1}} %Left pushforward
+\newcommand{\rightinversepushforward}[1]{\rightliftedaction{#1}{\inv{#1}}} %Right inverse pushforward
+\newcommand{\rightpushforward}[1]{\rightliftedaction{e}{#1}} %Right pushforward
+
+\newcommand{\tans}[1][]{T_{#1}} %tangent space
+\newcommand{\dtans}[1][]{T_{#1}^{*}} % dual tangent space
+\newcommand{\dliftedactionA}[3]{T^{*}_{#1}{#2}^{\phantom{*}}_{#3}}  %Generic dual lifted action
+\newcommand{\dliftedactionB}[3]{(T_{#1}{#2}_{#3})^{*}}  %Generic dual lifted action
+\newcommand{\dlGact}[2]{\dliftedactionB{#1}{\Gact}{#2}}
+\newcommand{\dlLact}[2]{\dliftedactionB{#1}{\Lact}{#2}}%Left lifted action
+\newcommand{\dlRact}[2]{\dliftedactionB{#1}{\Ract}{#2}} %Right lifted action
+\newcommand{\idliftedactionB}[3]{(T_{#1}{#2}_{#3})^{\solneg*}}  %Generic dual lifted action
+\newcommand{\idlGact}[2]{\idliftedactionB{#1}{\Gact}{#2}}
+\newcommand{\idlLact}[2]{\idliftedactionB{#1}{\Lact}{#2}}%Left lifted action
+\newcommand{\idlRact}[2]{\idliftedactionB{#1}{\Ract}{#2}} %Right lifted action
+
+\newcommand{\clGact}[2]{\liftedaction{#1}{\Gact}{#2^{*}}}
+\newcommand{\clLact}[2]{\liftedaction{#1}{\Lact}{#2^{*}}}%Left lifted action
+\newcommand{\clRact}[2]{\liftedaction{#1}{\Ract}{#2^{*}}} %Right lifted action
+\newcommand{\iclGact}[2]{\liftedaction{#1}{\Gact}{#2^{\solneg*}}}
+\newcommand{\iclLact}[2]{\liftedaction{#1}{\Lact}{#2^{\solneg*}}}%Left lifted action
+\newcommand{\iclRact}[2]{\liftedaction{#1}{\Ract}{#2^{\solneg*}}} %Right lifted action
+
+
+
+
+%Lagrangian notation
+%\newcommand{\lagrangian}[2]{L(#1,#2 )} %Lagrangian function
+\newcommand{\lagrangian}{\mathcal{L}} %Lagrangian function
+\newcommand{\lagrangemult}{\lambda}    %Lagrange multipliers
+\newcommand{\lagrangeforce}{\tau}  %generalize forces
+\newcommand{\pfaffian}{\omega}    %pfaffian constraint operator
+\newcommand{\rlagrangian}{l(\bodyvel,\base,\basedot)}  %reduced lagrangian
+\newcommand{\rlagmass}{\mathbb{M}}
+\newcommand{\inertia}{I}
+\newcommand{\kineticenergy}{\textsc{ke}}
+\newcommand{\potentialenergy}{\textsc{pe}}
+\newcommand{\localmass}{\mu}
+\newcommand{\configforce}{\tau}
+
+%Null paths
+\newcommand{\nullcornercochange}[2]{Z^{#1}_{#2}}  %base definition of the null cochange
+\newcommand{\thetaxbdotnullcorner}{\nullcornercochange{\tgen}{\xbdot}} %cha
+\newcommand{\xthetabdotnullcorner}{\nullcornercochange{\xgen}{\tbdot}} %cha
+\newcommand{\zerodispsideparam}{c}
+\newcommand{\zerodispangleparam}{\beta}
+
+%Special integral symbols
+\def\Xint#1{\mathchoice 
+{\XXint\displaystyle\textstyle{#1}}% 
+{\XXint\textstyle\scriptstyle{#1}}% 
+{\XXint\scriptstyle\scriptscriptstyle{#1}}% 
+{\XXint\scriptscriptstyle\scriptscriptstyle{#1}}% 
+\!\int} 
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$} 
+\vcenter{\hbox{$#2#3$}}\kern-.5\wd0}} 
+\def\intv{\Xint V} 
+\def\intm{\Xint M}
+
+\def\XProdi#1{\mathchoice 
+{\XXProdi\displaystyle\textstyle{#1}}% 
+{\XXProdi\textstyle\scriptstyle{#1}}% 
+{\XXProdi\scriptstyle\scriptscriptstyle{#1}}% 
+{\XXProdi\scriptscriptstyle\scriptscriptstyle{#1}}% 
+\!\Prodi} 
+\def\XXProdi#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\Prodi}$} 
+\vcenter{\hbox{$#2#3$}}\kern-.5\wd0}} 
+\def\rProdi{\XProdi \longrightarrow} 
+\def\lProdi{\XProdi \longleftarrow}
+
+\def\rXProd#1{\mathchoice 
+{\rXXProd\displaystyle\textstyle{#1}}% 
+{\rXXProd\textstyle\scriptstyle{#1}}% 
+{\rXXProd\scriptstyle\scriptscriptstyle{#1}}% 
+{\rXXProd\scriptscriptstyle\scriptscriptstyle{#1}}% 
+\!\prod} 
+\def\rXXProd#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\prod}$} 
+\vcenter{\hbox{$#2#3$}}\kern-.53\wd0}} 
+
+\def\lXProd#1{\mathchoice 
+{\lXXProd\displaystyle\textstyle{#1}}% 
+{\lXXProd\textstyle\scriptstyle{#1}}% 
+{\lXXProd\scriptstyle\scriptscriptstyle{#1}}% 
+{\lXXProd\scriptscriptstyle\scriptscriptstyle{#1}}% 
+\!\prod} 
+\def\lXXProd#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\prod}$} 
+\vcenter{\hbox{$#2#3$}}\kern-.49\wd0}} 
+
+\def\rProd{\rXProd \longrightarrow \xspace}
+\def\lProd{\lXProd \longleftarrow}
+
+
+% Interior Product symbol
+\DeclareFontFamily{U}{MnSymbolC}{}
+\DeclareSymbolFont{MnSyC}{U}{MnSymbolC}{m}{n}
+\DeclareFontShape{U}{MnSymbolC}{m}{n}{
+    <-6>  MnSymbolC5
+   <6-7>  MnSymbolC6
+   <7-8>  MnSymbolC7
+   <8-9>  MnSymbolC8
+   <9-10> MnSymbolC9
+  <10-12> MnSymbolC10
+  <12->   MnSymbolC12}{}
+\DeclareMathSymbol{\intprod}{\mathbin}{MnSyC}{'270}
+
+% Binormal, etc.
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%Useful macros
+\newcommand{\suchthat}{\ |\ }				%"Such that" vertical bar
+\newcommand{\transpose}[1]{#1^{T}}			%Transpose
+\newcommand{\norm}[1]{\lVert #1 \rVert}		%vector norm
+\newcommand{\abs}[1]{\lvert #1 \rvert}		 %absolute value
+\newcommand{\dotprod}[2]{ #1 \cdot #2 }		%vector dot product
+\newcommand{\semidprod}{\rtimes}
+\newcommand{\semidprodl}{\ltimes}
+\newcommand{\semidprods}{\circledS}             %semidirect product operator
+\newcommand{\en}{n}					% symbol to use for n-dimensional
+\newcommand\der{\mathrm{d}} % derivative
+
+\newcommand{\pinvA}{A}
+\newcommand{\pinvx}{x}
+\newcommand{\pinvX}{X}
+\newcommand{\pinvb}{b}
+\newcommand{\App}{A^{p \prime}}
+\newcommand{\xnull}[1][]{x_{\nullspace{}#1}}
+
+
+\newcommand{\dfun}{{f}} % symbol to use as function being integrated or derived
+\newcommand{\dvar}{{x}} % independent variable in integrations and derivatives
+\newcommand{\qder}{{v}} % quotient derivative
+\newcommand{\dder}{{u}} % difference derivative
+\newcommand{\ddelta}{{\delta}} %delta symbol to use in derivative expressions
+
+\newcommand{\scalefactor}{x} % Scale for simple semidirect group
+\newcommand{\shiftlength}{y} % shift for simple semidirect group
+\newcommand{\altscalefactor}{u} % Scale for simple semidirect group
+\newcommand{\altshiftlength}{v} % Stretch for simple semidirect group
+
+\newcommand{\scaledot}{\dot{\scalefactor}}
+\newcommand{\shiftdot}{\dot{\shiftlength}}
+\newcommand{\scalecirc}{\groupderiv{\scalefactor}}
+\newcommand{\shiftcirc}{\groupderiv{\shiftlength}}
+
+
+\newcommand{\xcirc}{\groupderiv{x}}
+\newcommand{\ycirc}{\groupderiv{y}}
+\newcommand{\thetacirc}{\groupderiv{\theta}}
+
+%%%%%%%
+% Christoffel symbols
+\newcommand{\ctfl}[3]{\Gamma^{#1}_{#2#3}}
+
+% Arguments are l j k r
+\newcommand{\ctflexp}[4]{ \inv{\metric}_{#1#4}\left(\parderiv{\metric_{#4#2}}{#3} + \parderiv{\metric_{#4#3}}{#2} - \parderiv{\metric_{#2#3}}{#4}\right) }
+
+%%%%%%%%%%
+% Sphere metric and Christoffel symbols
+
+%sphere coordinates
+\newcommand{\lon}{\lambda}
+\newcommand{\lat}{\phi}
+\newcommand{\sphereC}[1]
+{
+  \IfEqCase{#1}
+    {
+    {1}{\lon}
+    {2}{\lat}
+    }
+}
+
+\newcommand{\sphereM}[2]
+{
+  \IfEqCase{#1}
+    {
+    {1}{  
+      \IfEqCase{#2}
+          {
+          {1}{\cos^{2}{\sphereC{2}}}
+          {2}{0}
+          }
+       }
+    {2}{
+      \IfEqCase{#2}
+          {
+          {1}{0}
+          {2}{1}
+          }
+       }
+    }
+}
+
+\newcommand{\sphereMinv}[2]
+{
+  \IfEqCase{#1}
+    {
+    {1}{  
+      \IfEqCase{#2}
+          {
+          {1}{\frac{1}{\cos^{2}{\sphereC{2}}}}
+          {2}{0}
+          }
+       }
+    {2}{
+      \IfEqCase{#2}
+          {
+          {1}{0}
+          {2}{1}
+          }
+       }
+    }
+}
+
+\newcommand{\ctflhighlight}[2][0]
+{
+	\IfEqCase{#1}
+	{
+	{1}{{\color{crimson} \bm{{#2}}}}
+	{0}{#2}
+	}
+}
+
+\newcommand{\ctflexpsphere}[8]{\ctflhighlight[#5]{\sphereMinv{#1}{#4}}\left(\ctflhighlight[#6]{\parderiv{\sphereM{#4}{#2}}{\sphereC{#3}}} + \ctflhighlight[#7]{\parderiv{\sphereM{#4}{#3}}{\sphereC{#2}}} \ctflhighlight[#8]{-\parderiv{\sphereM{#2}{#3}}{\sphereC{#4}}}\right) }
+
+% legacy macros
+\newcommand{\stretchlength}{\shiftlength} % Stretch for simple semidirect group
+\newcommand{\altstretchlength}{\altshiftlength} % Stretch for simple semidirect group
+
+
+% Commonly used matrices
+\newcommand{\rotmatrix}[2][]{\begin{bmatrix} #1\cos{#2} & -#1\sin{#2} \\ #1\sin{#2} & \phantom{-}#1\cos{#2} \end{bmatrix}}  % Rotation matrix by the angle in the first argument
+
+\newcommand{\transrotmatrix}[2][]{\begin{bmatrix} \phantom{-}#1\cos{#2} & #1\sin{#2} \\ -#1\sin{#2} & #1\cos{#2} \end{bmatrix}}  % Rotation matrix by the angle in the first argument
+
+
+\newcommand{\drotmatrix}[2][]{\begin{bmatrix} -#1\sin{#2} & -#1\cos{#2} \\ \phantom{-}#1\cos{#2} & -#1\sin{#2}\end{bmatrix}} %Derivative of the rotation matrix
+
+\newcommand{\skewsym}[1]{\begin{bmatrix} 0 & -#1 \\ #1 & \phantom{-}0 \end{bmatrix}} % Skew-symmetric 2x2 matrix
+
+\newcommand{\SEmatrix}[3]{\begin{bmatrix} \cos{#3} & -\sin{#3} & #1 \\ \sin{#3} & \phantom{-}\cos{#3} & #2 \\ 0 & \phantom{-}0 & 1 \end{bmatrix}} % SE(2) matrix
+
+\newcommand{\SEmatrixd}[3]{\begin{bmatrix} \cos{#3} & -\sin{#3} & 0 \\ \sin{#3} & \phantom{-}\cos{#3} & 0 \\ -#1\cos{#3}-#2\sin{#3} & #1\sin{#3}+#2\cos{#3} & 1 \end{bmatrix}} % SE(2) matrix
+
+
+\newcommand{\SEmatrixnegrot}[3]{\begin{bmatrix} \phantom{-}\cos{#3} & \sin{#3} & #1 \\ -\sin{#3} & \cos{#3} & #2 \\ 0 & \phantom{-}0 & 1 \end{bmatrix}} % SE(2) matrix
+
+
+\newcommand{\SEmatrixinv}[3]{\begin{bmatrix} \phantom{-}\cos{#3} & \sin{#3} & -#1\cos{#3}-#2\sin{#3} \\ -\sin{#3} & \cos{#3} & \phantom{-}#1\sin{#3}-#2\cos{#3} \\ 0 & \phantom{-}0 & 1 \end{bmatrix}} % SE(2) matrix
+
+
+\newcommand{\SEmatrixvg}[3]{\begin{bmatrix} 0 & -\groupderiv{#3} & \groupderiv{#1} \\ \groupderiv{#3} & \phantom{-}0 & \groupderiv{#2} \\ 0 & \phantom{-}0 & 0 \end{bmatrix}} % SE(2) groupwisevelocity matrix
+
+\newcommand{\SEmatrixc}[3]{\begin{bmatrix} 0 & -{#3}/2 & {#1} \\ {#3}/2 & \phantom{-}0 & {#2} \\ 0 & \phantom{-}0 & 0 \end{bmatrix}} % SE(2) groupwisecovector matrix
+
+\newcommand{\SEmatrixvgr}[3]{\begin{bmatrix} 0 & -\rightgroupderiv{#3} & \rightgroupderiv{#1} \\ \rightgroupderiv{#3} & \phantom{-}0 & \rightgroupderiv{#2} \\ 0 & \phantom{-}0 & 0 \end{bmatrix}} % SE(2) groupwisevelocity matrix
+
+\newcommand{\SEmatrixvgl}[3]{\begin{bmatrix} 0 & -\leftgroupderiv{#3} & \leftgroupderiv{#1} \\ \leftgroupderiv{#3} & \phantom{-}0 & \leftgroupderiv{#2} \\ 0 & \phantom{-}0 & 0 \end{bmatrix}} % SE(2) groupwisevelocity matrix
+
+
+\newcommand{\SEmatrixv}[3]{\begin{bmatrix} -\sin{(#3)}\dot{#3} & -\cos{(#3)}\dot{#3} & \dot{#1} \\ \phantom{-}\cos{(#3)}\dot{#3} & -\sin{(#3)}\dot{#3} & \dot{#2} \\ \phantom{-}0 & \phantom{-}0 & 0 \end{bmatrix}} % SE(2) velocity matrix
+
+\newcommand{\SEmatrixlLact}[3]{\begin{bmatrix} \cos{#3} & -\sin{#3} & 0 \\ \sin{#3} & \phantom{-}\cos{#3} & 0 \\ 0 & \phantom{-}0 &1 \end{bmatrix}}
+
+\newcommand{\SEmatrixadj}[3]{\begin{bmatrix}\cos{#3} & -\sin{#3} & \phantom{-}#2\\ \sin{#3} & \phantom{-}\cos{#3} & -#1 \\ \phantom{-}0 & 0 & \phantom{-}1 \end{bmatrix}}
+
+
+
+\newcommand{\SEmatrixadji}[3]{\begin{bmatrix}\pmi\cos{#3} & \sin{#3} & #1\sin{#3}-#2\cos{#3}\\ -\sin{#3} & \cos{#3} & #1\cos{#3} + #2\sin{#3} \\ \pmi0 & 0 & 1 \end{bmatrix}}
+
+\newcommand{\SEmatrixadjiT}[3]{\begin{bmatrix}\begin{matrix} \cos{#3} \\ \sin{#3} \\ #1\sin{#3}-#2\cos{#3}\end{matrix} & \begin{matrix}  -\sin{#3} \\ \pmi\cos{#3} \\ #1\cos{#3} + #2\sin{#3} \end{matrix} & \begin{matrix} 0 \\ 0 \\ 1 \end{matrix} \end{bmatrix}}
+
+\newcommand{\SEmatrixadjix}[1]{\begin{bmatrix} 1 & 0 & 0\\ 0 & 1 & #1  \\ 0 & 0 & 1 \end{bmatrix}}
+
+
+\newcommand{\SEmatrixadjitheta}[1]{\begin{bmatrix}\phantom{-}\cos{#1} & \sin{#1} & 0\\ -\sin{#1} & \cos{#1} & 0 \\ 0 & 0 & 1 \end{bmatrix}}
+
+\newcommand{\SEmatrixadjirawbare}[3]{\begin{matrix} \cos{#3} & -\sin{#3} & #1 \\ \sin{#3} & \phantom{-}\cos{#3} & #2 \\ 0 & \phantom{-}0 & 1 \end{matrix}}
+
+\newcommand{\SEmatrixadjirawbarenegrot}[3]{\begin{matrix} \phantom{-}\cos{#3} & \sin{#3} & #1 \\ -\sin{#3} & \cos{#3} & #2 \\ \pmi0 & 0 & 1 \end{matrix}}
+
+\newcommand{\SEmatrixadjirawnegrot}[3]{\begin{bmatrix} \phantom{-}\cos{#3} & \sin{#3} & #1 \\ -\sin{#3} & \cos{#3} & #2 \\ \pmi0 & 0 & 1 \end{bmatrix}}
+
+
+\newcommand{\Rz}[2][0] {\begin{bmatrix} \cos{#2} &-\sin{#2} &#1 \\ \sin{#2} & \phantom{-}\cos{#2} & #1 \\ #1 & #1 & 1 \end{bmatrix}}
+
+\newcommand{\Rzi}[2][0] {\begin{bmatrix} \phantom{-}\cos{#2} &\sin{#2} &#1 \\ -\sin{#2} & \cos{#2} & #1 \\ #1 & #1 & 1 \end{bmatrix}}
+
+\newcommand{\Ry}[2][0] {\begin{bmatrix} \phantom{-}\cos{#2} & #1 & \sin{#2} \\ #1 & 1 & #1 \\ -\sin{#2} & #1 & \cos{#2} \end{bmatrix}}
+
+\newcommand{\Ryi}[2][0] {\begin{bmatrix} \cos{#2} & 0 & -\sin{#2} \\ #1 & 1 & #1 \\ \sin{#2} & #1 & \phantom{-}\cos{#2} \end{bmatrix}}
+
+\newcommand{\Rx}[2][0] {\begin{bmatrix} 1 & #1 & #1 \\ #1 & \cos{#2} &-\sin{#2}\\  #1 &\sin{#2} & \phantom{-}\cos{#2} \end{bmatrix}}
+
+\newcommand{\Rxi}[2][0] {\begin{bmatrix} 1 & #1 & #1 \\ #1 & \phantom{-}\cos{#2} &\sin{#2}\\  #1 & -\sin{#2} & \cos{#2} \end{bmatrix}}
+
+\newcommand{\scaleshiftm}[3][]{\begin{bmatrix} #2 & #3 \\ 0 & #1 1 \end{bmatrix}}
+\newcommand{\scaleshiftvm}[3][]{\begin{bmatrix} #2 & #3 \\ 0 & #1 0 \end{bmatrix}}
+\newcommand{\dscaleshiftvm}[2]{\begin{bmatrix} -#1 & 0 \\ -#2 & 0 \end{bmatrix}}
+
+
+\newcommand{\av}{\vec{a}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\Ov}{\vec{\Omega}}
+\newcommand{\rv}{\vec{r}}
+\newcommand{\rdv}{\dot{\vec{r}}}
+\newcommand{\rddv}{\ddot{\vec{r}}}
+\newcommand{\sddt}{\textstyle{\frac{d}{dt}}}
+\newcommand{\ddt}{\frac{d}{dt}}
+
+
+\newcommand{\rightcollectarrow}[2]%
+{%
+\overset{%
+\mathclap{%
+\phantom{#1}%
+\xrightarrow{%
+\hphantom{%
+\textstyle{#2}%
+}%
+}%
+#1%
+}%
+}{#2}}
+
+\newcommand{\leftcollectarrow}[2]%
+{%
+\overset{%
+\mathclap{%
+#1%
+\xleftarrow{%
+\hphantom{%
+\textstyle{#2}%
+}%
+}%
+\phantom{#1}%
+}%
+}{#2}}
+
+\newcommand{\rightdcollectarrow}[2]%
+{%
+\underset{%
+\mathclap{%
+\phantom{#1}%
+\xrightarrow{%
+\hphantom{%
+\textstyle{#2}%
+}%
+}%
+#1%
+}%
+}{#2}}
+
+\newcommand{\leftdcollectarrow}[2]%
+{%
+\underset{%
+\mathclap{%
+#1%
+\xleftarrow{%
+\hphantom{%
+\textstyle{#2}%
+}%
+}%
+\phantom{#1}%
+}%
+}{#2}}
