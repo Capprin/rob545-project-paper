@@ -42,15 +42,78 @@
 \maketitle
 
 \begin{abstract}
-    foo
+    Recently in the robotics industry, companies construct certain research robots from cheaper components, lowering the barrier of entry to study robot systems.
+	These systems pose a challenge from a planning and control standpoint, as uncertainty in actuation and sensing propagates into the trajectory of the robot.
+	In this paper, we present a novel method of expressing joint space uncertainty in the task space, respecing system kinematics.
+	We cast this expression for uncertainty as a pathlength metric, reflecting uncertainty accrued over a path.
+	Finally, we use our covariant pathlength metric as a heuristic for path planning, producing paths for a planar manipulator that minimize uncertainty.
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
+% historic robots
+	% powerful actuators
+	% precise encoders
+	% task space plans can be followed using simple kinematics or dynamics
+Modern industrial robots are built to be controlled using kinematic and dynamic principles.
+Many systems take advantage of powerful actuators, precise sensors, and fast computers to make software control tenable, using these mechanical models.
+Task space path plans can be followed with PID control on top of inverse kinematics or dynamics; the result is a robust stack of methods that has seen widespread use in industry \cite{something?}
+However, this approach literally comes at a cost: industrial robots range in price from tens to hundreds of thousands of dollars \cite{pricing}
+
+% newer robots
+	% goal of lower cost / barrier to entry
+	% cheaper actuators + hardware
+	% more sources of error, so uncertainty ought to be accounted for in planning & control
+A recent trend in robotics is the construction of lower cost systems, often with the goal of a lower barrier to entry in robotics research.
+Some current examples of robots built with this goal include Hello Robot's Stretch \cite{stretch}, Pollen Robotics' Reachy \cite{reachy} and others, as well as a universe of hobby and DIY robots.
+These systems often may be characterized as the antithesis of current industrial robots: inexpensive actuators, sensors, and computers are chosen on purpose to keep cost low.
+The relative imprecision of constitutent components makes control of these systems a challenge.
+Uncertainty must be built into models for system behavior, and ought to be accounted for when designing motion plans.
+
+% here, provide a simple approach to represent first order error in robot systems, based on system kinematics
+	% take covariance matrix defined on joint space as first order representation of error
+	% use first order kinematic map (jacobian) to represent variance in the task space
+	% provide Jinv expression
+	% use task space variance as a metric on path length
+	% incorporate in path planning to find low-variance paths between points
+In this paper, we address the need for uncertainty-aware path planning with a novel approach, taking advantage of first-order system kinematics to represent uncertainty at the end effector.
+Unlike many previous approaches \cite{previous work?}, our method respects the mapping between joint space uncertainty and the task space, which provides an intuitive representation of uncertainty at any configuration.
+We use the covariance between actuators to represent uncertainty in the joint space and map it up to the task space using an \textit{inverse pullback} operation:
+\begin{equation}
+	M = \left(\inv{J}\right)^T \Sigma \; \inv{J},
+\end{equation}
+where $M$ is the uncertainty expressed in the task space, $J$ is the jacobian of the manipulator, and $\Sigma$ is the joint-space defined covariance.
+The task space uncertainty $M$ may be used as a length metric for paths defined in the task space; it reflects the uncertainty accrued by taking a given path.
+We demonstrate our covariant pathlength metric as a heuristic for path planning, producing paths that respect system uncertainty.
+
+% roadmap
+The remainder of this paper is organized as follows.
+In \S\ref{sec:background}, we review the relevant background in kinematics, geometry, and path planning.
+In \S\ref{sec:methods}, we describe how the covariance matrix is mapped into the task space, and how uncertainty is accounted for in path planning.
+In \S\ref{sec:analysis}, we demonstrate our method on a planar manipulator, generating low-uncertainty paths.
+In \S\ref{sec:conclusion}, we make final remarks and comment on future work.
 
 \section{Background}\label{sec:background}
+\subsection{Kinematic Maps}
+% define joint space, task space
+% jacobian maps between tangent spaces
+% how to do inverse pullback of a bilinear form
+\subsection{Riemannian Metrics}
+\subsection{Path Planning}
+% brief explanation of A* search
+% importance of distance measures
 
-\section{Covariant Metric}\label{sec:methods}
-
+\section{Covariance as a Pathlength Metric}\label{sec:methods}
+\subsection{Kinematic Mapping of the Covariance Matrix}
+% definition of covariance matrix
+% inverse pullback of the covariance matrix
+% interpretation in the task space (figure)
+\subsection{Planning Under Uncertainty}
+% given a task space path, how do we construct the covariance matrix?
+% perform newton-rhapson inverse kinematics at each point to get the Jacobian
+% compute covariance matrix at each point
+% use cov mat to compute length (show math)
+% include algorithm environment
+% use as heuristic/pathlength in planning algorithms
 
 \section{Results and Analysis}\label{sec:analysis}
 
