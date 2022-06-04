@@ -79,7 +79,7 @@ In this paper, we address the need for uncertainty-aware path planning with a no
 Unlike many previous approaches \cite{previous work?}, our method respects the mapping between joint space uncertainty and the task space, which provides an intuitive representation of uncertainty at any configuration.
 We use the covariance between actuators to represent uncertainty in the joint space and map it up to the task space using an \textit{inverse pullback} operation:
 \begin{equation}
-	M = \left(\inv{J}\right)^T \Sigma \; \inv{J},
+	M = \left(J^\dagger\right)^T \Sigma \; J^\dagger,
 \end{equation}
 where $M$ is the uncertainty expressed in the task space, $J$ is the jacobian of the manipulator, and $\Sigma$ is the joint-space defined covariance.
 The task space uncertainty $M$ may be used as a length metric for paths defined in the task space; it reflects the uncertainty accrued by taking a given path.
@@ -115,13 +115,13 @@ For $g\in G$ and $\theta \in \Theta$, this is:
 \subsection{Bilinear Forms}
 % how to do inverse pullback of a bilinear form
 Here, the Jacobian is used to map velocity-dependent quantities (represented as bilinear forms) from the joint space to the task space.
-Bilinear forms are usually defined as skew-symmetric matrices $\Omega$:
+Bilinear forms are usually defined as symmetric or skew-symmetric matrices $\Omega$:
 \begin{equation}
     \Omega =
     \begin{bmatrix}
         \Omega_{11} & \Omega_{12} & \Omega_{13} & \cdots \\
-        -\Omega_{12} & \Omega_{22} & \Omega_{23} & \cdots \\
-        -\Omega_{13} & -\Omega_{23} & \Omega_{33} & \cdots \\
+        \pm\Omega_{12} & \Omega_{22} & \Omega_{23} & \cdots \\
+        \pm\Omega_{13} & \pm\Omega_{23} & \Omega_{33} & \cdots \\
         \vdots & \vdots & \vdots & \ddots
     \end{bmatrix},
 \end{equation}
@@ -145,21 +145,47 @@ Now, (\ref{eqn:jinv}) is applied to (\ref{eqn:bil}) to \textit{pullback} workspa
         &J^\dagger \;&\dot{g}_2&
     }{&&\br{3}{\Omega^G}&&}.
 \end{equation}
-One application of bilinear forms is to define a Riemannian metric, which measures distance over a space, and is essential for alternate definitions of pathlength for planning.
+Bilinear forms have a broad set of applications; in this paper, we use them in two specific ways.
+The first is to define covariance over the joint space, as a first order estimate for uncertainty.
+The second is to define a Riemannian metric, which measures distance over a space, and is essential for alternate definitions of pathlength for planning.
+
+\subsection{Covariance Matrix}
+In probability and statistics, variance $\sigma$ measures the expected (or average) deviation from the mean in a random variable.
+As an extension, \textit{covariance} $\Sigma$ between two (or more!) random variables measures how each effects the other, i.e. how correlated the two distributions are.
+As an example, for random variables $X$ and $Y$, the covariance $\Sigma$ may be written as a matrix,
+\begin{equation}
+    \Sigma =
+    \begin{bmatrix}
+        \sigma_{XX} & \sigma_{XY} \\
+        \sigma_{YX} & \sigma_{YY}
+    \end{bmatrix},
+\end{equation}
+where the diagonal $\sigma_{ii}$ terms refer to the variance of each distribution, and the off-diagonal $\sigma_{ij}$ terms refer to the contribution of the \textit{other} distribution towards variance.
+
+Due to the shared properties\footnote{
+    Specifically, the important shared properties between covariance and bilinear forms are biliniarity, symmetry, positive semi-definiteness.
+} between covariance and general bilinear forms, we may interpret covarariance as a bilinear form.
+When we do so, \textit{vectors} are linear combinations of random variables, and matrix multiplication yields the likelihood of said linear combination.
+For a linear combination vector $c$, the likelihood $\mathcal{L}(c)$ is
+\begin{equation}
+    \mathcal{L}(c) = c^T \Sigma \; c.
+\end{equation}
+
+We now describe Riemannian metrics, a related application of bilinear forms, generally defining distance.
 
 \subsection{Riemannian Metrics}
-Formally, a Riemannian metric defines an inner product on the tangent space (here, $T^\Theta$ or $T^G$).
+Formally, a Riemannian metric defines an inner product on the tangent space (here, $T_\Theta$ or $T_G$).
 The inner product can be thought of as a generalization of the dot product: it measures (by some choice of measurement) the similarity of two vectors.
 A useful consequence of the inner product is that a vector may be measured against \textit{itself} to provide a measure of length.
 
 On a broader scale, lengths are measured by integrating the metric (represented as a bilinear form) over a path definition.
 For a metric $M$, path parametrization $\phi(t)$, and location $x(t)$, the weighted length $L_\phi$ is
 \begin{equation}
-    L_\phi = \int_\phi (\dot{x})^T M(x)\dot{x} \; d\phi.
+    L_\phi = \int_\phi \left((\dot{x})^T M(x)\;\dot{x}\right)^\frac{1}{2} d\phi.
 \end{equation}
 In the discrete case, weighted length of a path with $n$ segments is given by
 \begin{equation}
-    L_\phi = \sum_i^{n-1} \Delta x_{i, i+1}^T M(x_i) \Delta x_{i, i+1},
+    L_\phi = \sum_i^{n-1} \left(\Delta x_{i, i+1}^T M(x_i) \Delta x_{i, i+1}\right)^\frac{1}{2},
 \end{equation}
 as we weight the length of each segment $\Delta x_{i,i+1}$ by the metric $M$.
 
@@ -172,12 +198,17 @@ However, most planners can take advantage of a number of distance measures to co
 Here, we use a simple path planner, A* search, to find shortest paths under metric distance.
 
 % NEHA: brief explanation of A* search?
+\noindent\textbf{[Insert explanation of A* search here]}
 
 \section{Covariance as a Pathlength Metric}\label{sec:methods}
+Here, we draw on the methods introduced in \S\ref{sec:background} to represent uncertainty respecting system kinematics.
+We briefly express our method using the relevant mathematics, and explain algorithmic implementation.
+We integrate our approach with path planning, generating uncertainty-aware motion plans.
 \subsection{Kinematic Mapping of the Covariance Matrix}
 % definition of covariance matrix
 % inverse pullback of the covariance matrix
 % interpretation in the task space (figure)
+
 \subsection{Planning Under Uncertainty}
 % given a task space path, how do we construct the covariance matrix?
 % perform newton-rhapson inverse kinematics at each point to get the Jacobian
