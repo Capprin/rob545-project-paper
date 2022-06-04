@@ -93,14 +93,85 @@ In \S\ref{sec:analysis}, we demonstrate our method on a planar manipulator, gene
 In \S\ref{sec:conclusion}, we make final remarks and comment on future work.
 
 \section{Background}\label{sec:background}
-\subsection{Kinematic Maps}
+\subsection{Model and Kinematic Map}
 % define joint space, task space
+When studying robot systems, we usually distinguish between the joint space and the task space.
+The joint space $\Theta$ refers to the set of actuator configurations, and the task space $G$ refers to the set of end effector or baseframe configurations.
+In this paper, we focus on revolute manipulators in the plane; this implies that $\Theta = S^N$, where $N$ is the number of joints, and $G = SE(2)$.
+
 % jacobian maps between tangent spaces
+The robotics community uses a number of methods to move between the joint space and the task space.
+These are often referred to as forward kinematics, inverse kinematics, and their dynamic counterparts.
+The most important mapping in the context of this paper is the Jacobian, which maps between tangent spaces. In our case, for $\theta \in \Theta$, this is:
+\begin{equation}
+    J(\theta): T_\Theta \to T_G.
+\end{equation}
+The Jacobian may be interpreted as a first order kinematic map; it linearly maps velocity in the joint space at a given configuration to velocity in task space.
+For $g\in G$ and $\theta \in \Theta$, this is:
+\begin{equation}\label{eqn:jforward}
+    \dot{g} = J(\theta)\dot{\theta}.
+\end{equation}
+
+\subsection{Bilinear Forms}
 % how to do inverse pullback of a bilinear form
+Here, the Jacobian is used to map velocity-dependent quantities (represented as bilinear forms) from the joint space to the task space.
+Bilinear forms are usually defined as skew-symmetric matrices $\Omega$:
+\begin{equation}
+    \Omega =
+    \begin{bmatrix}
+        \Omega_{11} & \Omega_{12} & \Omega_{13} & \cdots \\
+        -\Omega_{12} & \Omega_{22} & \Omega_{23} & \cdots \\
+        -\Omega_{13} & -\Omega_{23} & \Omega_{33} & \cdots \\
+        \vdots & \vdots & \vdots & \ddots
+    \end{bmatrix},
+\end{equation}
+and operate on velocities $\dot{\theta}_1, \dot{\theta}_2$ using matrix multiplication:
+\begin{equation}\label{eqn:bil}
+    \Omega(\dot{\theta}_1, \dot{\theta}_2) = (\dot{\theta}_1)^T \Omega \; \dot{\theta}_2.
+\end{equation}
+The key benefit to this representation is that the Jacobian may be used to relate forms defined on the joint space to quantities in the task space.
+From (\ref{eqn:jforward}), we relate task space velocities to joint space velocities:
+\begin{equation} \label{eqn:jinv}
+    \dot{\theta} = J^\dagger\dot{g},
+\end{equation}
+where $J^\dagger$ refers to the pseudoinverse of the Jacobian, and respects the fact that $J$ is not always invertible.
+Now, (\ref{eqn:jinv}) is applied to (\ref{eqn:bil}) to \textit{pullback} workspace velocities by the inverse of the kinematic map:
+\begin{equation}
+    \Omega(\dot{g}_1, \dot{g}_2) = 
+    \overunderbraces{&\br{2}{(\dot{\theta}_1)^T}& &\br{2}{\dot{\theta}_2}}{
+        &(\dot{g}_1)^T\;&
+        (J^\dagger)^T&
+        \;\Omega^\Theta
+        &J^\dagger \;&\dot{g}_2&
+    }{&&\br{3}{\Omega^G}&&}.
+\end{equation}
+One application of bilinear forms is to define a Riemannian metric, which measures distance over a space, and is essential for alternate definitions of pathlength for planning.
+
 \subsection{Riemannian Metrics}
+Formally, a Riemannian metric defines an inner product on the tangent space (here, $T^\Theta$ or $T^G$).
+The inner product can be thought of as a generalization of the dot product: it measures (by some choice of measurement) the similarity of two vectors.
+A useful consequence of the inner product is that a vector may be measured against \textit{itself} to provide a measure of length.
+
+On a broader scale, lengths are measured by integrating the metric (represented as a bilinear form) over a path definition.
+For a metric $M$, path parametrization $\phi(t)$, and location $x(t)$, the weighted length $L_\phi$ is
+\begin{equation}
+    L_\phi = \int_\phi (\dot{x})^T M(x)\dot{x} \; d\phi.
+\end{equation}
+In the discrete case, weighted length of a path with $n$ segments is given by
+\begin{equation}
+    L_\phi = \sum_i^{n-1} \Delta x_{i, i+1}^T M(x_i) \Delta x_{i, i+1},
+\end{equation}
+as we weight the length of each segment $\Delta x_{i,i+1}$ by the metric $M$.
+
+In this paper, a Riemannian metric is used to define a custom measure of distance.
+Metric distance applied to a path planning algorithm can produce optimal paths with respect to our own choice of distance.
+
 \subsection{Path Planning}
-% brief explanation of A* search
-% importance of distance measures
+Path planning is a rich area of study, most of which is outside the scope of this paper.
+However, most planners can take advantage of a number of distance measures to compare candidate paths \cite{something?}; classic examples include Euclidean distance or Manhattan distance.
+Here, we use a simple path planner, A* search, to find shortest paths under metric distance.
+
+% NEHA: brief explanation of A* search?
 
 \section{Covariance as a Pathlength Metric}\label{sec:methods}
 \subsection{Kinematic Mapping of the Covariance Matrix}
